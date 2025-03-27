@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -41,7 +42,12 @@ func Register(c *gin.Context) {
 	}
 
 	// Проверка существования пользователя с таким же username
-	existingUser, _ := models.FindByUsername(req.Username)
+	existingUser, err := models.FindByUsername(req.Username)
+	if err != nil {
+		errTxt := fmt.Sprintf("error when trying to find username %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": errTxt})
+		return
+	}
 	if existingUser != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Username already exists"})
 		return
@@ -52,7 +58,7 @@ func Register(c *gin.Context) {
 		Password: req.Password,
 		Email:    req.Email,
 	}
-
+	user.BeforeCreate(c)
 	// Сохранение пользователя в базу данных
 	if err := mgm.Coll(user).Create(user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user", "details": err.Error()})

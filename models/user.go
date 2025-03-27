@@ -76,5 +76,12 @@ func FindByID(id string) (*User, error) {
 func FindByUsername(username string) (*User, error) {
 	user := &User{}
 	err := mgm.Coll(user).FindOne(context.Background(), bson.M{"username": username}).Decode(user)
-	return user, err
+	if err == mongo.ErrNoDocuments {
+		return nil, nil // Пользователь не найден, возвращаем nil
+	}
+
+	if err != nil {
+		return nil, err // Ошибка при запросе
+	}
+	return user, nil
 }

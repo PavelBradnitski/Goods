@@ -20,11 +20,11 @@ func GenerateJWT(userID string) (string, error) {
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
-			Issuer:    JWTIssuer,
+			Issuer:    JwtConfig.JWTIssuer,
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(JWTSecretKey))
+	tokenString, err := token.SignedString([]byte(JwtConfig.JWTSecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -38,11 +38,11 @@ func GenerateRefreshToken(userID string) (string, error) {
 		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
-			Issuer:    JWTIssuer,
+			Issuer:    JwtConfig.JWTIssuer,
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(JWTSecretKey))
+	tokenString, err := token.SignedString([]byte(JwtConfig.JWTSecretKey))
 	if err != nil {
 		return "", err
 	}
@@ -56,7 +56,7 @@ func ValidateToken(tokenString string) (*Claims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-		return []byte(JWTSecretKey), nil
+		return []byte(JwtConfig.JWTSecretKey), nil
 	})
 
 	if err != nil {
