@@ -8,7 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthMiddleware проверяет JWT токен и добавляет ID пользователя в контекст
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -17,7 +16,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Разделяем заголовок, чтобы получить только токен (предполагается "Bearer <token>")
 		tokenString := authHeader[len("Bearer "):]
 		if tokenString == "" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization header"})
@@ -30,7 +28,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		// Добавляем ID пользователя в контекст
 		c.Set("userID", claims.UserID)
 		c.Next()
 	}

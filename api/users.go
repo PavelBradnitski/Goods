@@ -17,7 +17,7 @@ import (
 // @Security BearerAuth
 // @Router /users/me [get]
 func GetCurrentUser(c *gin.Context) {
-	userID := c.GetString("userID") // Получаем ID пользователя из контекста
+	userID := c.GetString("userID")
 
 	user, err := models.FindByID(userID)
 	if err != nil {
@@ -25,7 +25,6 @@ func GetCurrentUser(c *gin.Context) {
 		return
 	}
 
-	// Не показываем пароль
 	user.Password = ""
 
 	c.JSON(http.StatusOK, user)

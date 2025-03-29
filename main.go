@@ -11,7 +11,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	//_ "github.com/PavelBradnitski/Goods/docs" // Импорт сгенерированной документации Swagger
+	_ "github.com/PavelBradnitski/Goods/docs" // Импорт сгенерированной документации Swagger
 
 	"github.com/PavelBradnitski/Goods/api"
 	"github.com/PavelBradnitski/Goods/db/migrations"
@@ -23,19 +23,8 @@ import (
 // @version 1.0
 // @description Microservice for authentication using JWT.
 // @termsOfService http://swagger.io/terms/
-
-// @contact.name API Support
-// @contact.url http://www.swagger.io/support
-// @contact.email support@swagger.io
-
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
 // @host localhost:8080
 // @BasePath /api/v1
-// @securityDefinitions.apikey BearerAuth
-// @in header
-// @name Authorization
 func main() {
 	// Загрузка конфигурации из .env
 	err := godotenv.Load()
@@ -80,12 +69,8 @@ func main() {
 		}
 	}
 
-	// Swagger
-	url := ginSwagger.URL("/swagger/doc.json") // The url pointing to API definition
-	//url := ginSwagger.URL("/swagger/index.html") // The url pointing to API definition
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Запуск сервера
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"

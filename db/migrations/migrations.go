@@ -11,17 +11,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// Up выполняет миграцию (создание индексов)
 func Up() error {
 	collection := mgm.Coll(&models.User{}).Collection
 
-	// Создание уникального индекса на email
 	indexModel := mongo.IndexModel{
-		Keys:    bson.M{"email": 1}, // Индекс по полю Email
+		Keys:    bson.M{"email": 1},
 		Options: options.Index().SetUnique(true),
 	}
 
-	// Применение индекса
 	_, err := collection.Indexes().CreateOne(context.Background(), indexModel)
 	if err != nil {
 		log.Fatalf("Ошибка создания индекса: %v", err)
@@ -32,7 +29,6 @@ func Up() error {
 	return nil
 }
 
-// Down откатывает миграцию (удаление индекса)
 func Down() error {
 	collection := mgm.Coll(&models.User{}).Collection
 	_, err := collection.Indexes().DropOne(context.Background(), "email_1")

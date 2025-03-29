@@ -53,15 +53,10 @@ func GetMongoClient(clientOptions *options.ClientOptions) (*mongo.Client, error)
 	return client, nil
 }
 
-var JwtConfig struct {
-	JWTSecretKey string
-	JWTIssuer    string
-}
-
 // Константы JWT (лучше хранить в переменных окружения)
 var (
-	// JWTSecretKey    = os.Getenv("JWT_SECRET") // Example "my-secret-key"
-	// JWTIssuer       = os.Getenv("JWT_ISSUER") // Example "my-auth-service"
+	JWTSecretKey   string             // Example "my-secret-key"
+	JWTIssuer      string             // Example "my-auth-service"
 	AccessTokenTTL = time.Second * 10 // Время жизни access token
 	// RefreshTokenTTL = time.Hour * 24 * 7 // Время жизни refresh token (неделя)
 	RefreshTokenTTL = time.Hour
@@ -72,12 +67,12 @@ func init() {
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
-	JwtConfig.JWTSecretKey = os.Getenv("JWT_SECRET")
-	JwtConfig.JWTIssuer = os.Getenv("JWT_ISSUER")
-	if JwtConfig.JWTSecretKey == "" {
+	JWTSecretKey = os.Getenv("JWT_SECRET")
+	JWTIssuer = os.Getenv("JWT_ISSUER")
+	if JWTSecretKey == "" {
 		log.Fatal("JWT_SECRET must be set in .env")
 	}
-	if JwtConfig.JWTIssuer == "" {
+	if JWTIssuer == "" {
 		log.Fatal("JWT_ISSUER must be set in .env")
 	}
 }

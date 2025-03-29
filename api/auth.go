@@ -11,14 +11,12 @@ import (
 	"github.com/PavelBradnitski/Goods/utils"
 )
 
-// RegisterRequest структура для запроса регистрации
 type RegisterRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" binding:"required,email"`
 }
 
-// LoginRequest структура для запроса логина
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
@@ -41,7 +39,6 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Проверка существования пользователя с таким же username
 	existingUser, err := models.FindByUsername(req.Username)
 	if err != nil {
 		errTxt := fmt.Sprintf("error when trying to find username %v", err)
@@ -58,8 +55,8 @@ func Register(c *gin.Context) {
 		Password: req.Password,
 		Email:    req.Email,
 	}
+	// хешируем пароль
 	user.BeforeCreate(c)
-	// Сохранение пользователя в базу данных
 	if err := mgm.Coll(user).Create(user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user", "details": err.Error()})
 		return
@@ -86,20 +83,17 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Поиск пользователя по username
 	user, err := models.FindByUsername(req.Username)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
 
-	// Проверка пароля
 	if err := user.VerifyPassword(req.Password); err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid username or password"})
 		return
 	}
 
-	// Генерация JWT токена
 	token, err := utils.GenerateJWT(user.ID.Hex())
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
@@ -137,14 +131,12 @@ func RefreshToken(c *gin.Context) {
 		return
 	}
 
-	// Валидация refresh токена
 	claims, err := utils.ValidateToken(req.RefreshToken)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid refresh token"})
 		return
 	}
 
-	// Генерация нового access токена
 	newToken, err := utils.GenerateJWT(claims.UserID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate new token"})
