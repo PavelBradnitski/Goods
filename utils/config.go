@@ -62,8 +62,9 @@ var JwtConfig struct {
 var (
 	// JWTSecretKey    = os.Getenv("JWT_SECRET") // Example "my-secret-key"
 	// JWTIssuer       = os.Getenv("JWT_ISSUER") // Example "my-auth-service"
-	AccessTokenTTL  = time.Hour          // Время жизни access token
-	RefreshTokenTTL = time.Hour * 24 * 7 // Время жизни refresh token (неделя)
+	AccessTokenTTL = time.Second * 10 // Время жизни access token
+	// RefreshTokenTTL = time.Hour * 24 * 7 // Время жизни refresh token (неделя)
+	RefreshTokenTTL = time.Hour
 )
 
 func init() {

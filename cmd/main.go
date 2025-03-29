@@ -14,6 +14,7 @@ import (
 	//_ "github.com/PavelBradnitski/Goods/docs" // Импорт сгенерированной документации Swagger
 
 	"github.com/PavelBradnitski/Goods/api"
+	"github.com/PavelBradnitski/Goods/db/migrations"
 	"github.com/PavelBradnitski/Goods/middleware"
 	"github.com/PavelBradnitski/Goods/utils"
 )
@@ -53,6 +54,10 @@ func main() {
 		log.Fatalf("Error connecting to MongoDB: %v", err)
 	}
 
+	// Запуск миграции
+	if err := migrations.Up(); err != nil {
+		log.Fatalf("Ошибка при выполнении миграции: %v", err)
+	}
 	// Создание роутера Gin
 	router := gin.Default()
 
