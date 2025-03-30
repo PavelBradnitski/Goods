@@ -11,12 +11,12 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
-	_ "github.com/PavelBradnitski/Goods/docs" // Импорт сгенерированной документации Swagger
+	_ "github.com/PavelBradnitski/Goods/auth_service/docs" // Импорт сгенерированной документации Swagger
 
-	"github.com/PavelBradnitski/Goods/api"
-	"github.com/PavelBradnitski/Goods/db/migrations"
-	"github.com/PavelBradnitski/Goods/middleware"
-	"github.com/PavelBradnitski/Goods/utils"
+	"github.com/PavelBradnitski/Goods/auth_service/api"
+	"github.com/PavelBradnitski/Goods/auth_service/db/migrations"
+	"github.com/PavelBradnitski/Goods/auth_service/middleware"
+	"github.com/PavelBradnitski/Goods/auth_service/utils"
 )
 
 // @title Auth API

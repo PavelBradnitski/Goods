@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/PavelBradnitski/Goods/models"
+	"github.com/PavelBradnitski/Goods/auth_service/models"
 )
 
 // @Summary Get current user information

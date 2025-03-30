@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/PavelBradnitski/Goods/models"
+	"github.com/PavelBradnitski/Goods/auth_service/models"
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

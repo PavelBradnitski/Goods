@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	"github.com/PavelBradnitski/Goods/utils"
+	"github.com/PavelBradnitski/Goods/auth_service/utils"
 
 	"github.com/gin-gonic/gin"
 )

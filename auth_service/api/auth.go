@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/kamva/mgm/v3"
 
-	"github.com/PavelBradnitski/Goods/models"
-	"github.com/PavelBradnitski/Goods/utils"
+	"github.com/PavelBradnitski/Goods/auth_service/models"
+	"github.com/PavelBradnitski/Goods/auth_service/utils"
 )
 
 type RegisterRequest struct {
