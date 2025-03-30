@@ -29,3 +29,23 @@ func GetCurrentUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, user)
 }
+
+// @Summary Validate User with BearerToken
+// @Description Validate User with BearerToken
+// @Tags users
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 401 {object} map[string]interface{}
+// @Security BearerAuth
+// @Router /users/validate [get]
+func ValidateToken(c *gin.Context) {
+	userID := c.GetString("userID")
+
+	_, err := models.FindByID(userID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Token is valid"})
+}

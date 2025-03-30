@@ -54,15 +54,16 @@ func main() {
 			auth.POST("/register", api.Register)
 			auth.POST("/login", api.Login)
 			auth.POST("/refresh", api.RefreshToken)
+
 		}
 
 		users := v1.Group("/users")
 		users.Use(middleware.AuthMiddleware())
 		{
 			users.GET("/me", api.GetCurrentUser)
+			users.GET("/validate", api.ValidateToken)
 		}
 	}
-
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	port := os.Getenv("PORT")
