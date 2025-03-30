@@ -26,12 +26,11 @@ import (
 // @host localhost:8080
 // @BasePath /api/v1
 func main() {
-	// Загрузка конфигурации из .env
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
-	// Инициализация MongoDB
+
 	mongoURI := os.Getenv("MONGO_URI")
 	dbName := os.Getenv("MONGO_DB_NAME")
 	if mongoURI == "" || dbName == "" {
@@ -43,17 +42,13 @@ func main() {
 		log.Fatalf("Error connecting to MongoDB: %v", err)
 	}
 
-	// Запуск миграции
 	if err := migrations.Up(); err != nil {
 		log.Fatalf("Ошибка при выполнении миграции: %v", err)
 	}
-	// Создание роутера Gin
 	router := gin.Default()
 
-	// Настройка маршрутов
 	v1 := router.Group("/api/v1")
 	{
-		// Авторизация
 		auth := v1.Group("/auth")
 		{
 			auth.POST("/register", api.Register)
@@ -61,7 +56,6 @@ func main() {
 			auth.POST("/refresh", api.RefreshToken)
 		}
 
-		// Пользователи (требуется авторизация)
 		users := v1.Group("/users")
 		users.Use(middleware.AuthMiddleware())
 		{
