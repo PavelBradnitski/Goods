@@ -1,0 +1,5 @@
+# Исключаем ненужные файлы
+.git
+node_modules
+vendor
+*.log

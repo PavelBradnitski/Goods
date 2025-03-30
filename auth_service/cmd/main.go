@@ -66,7 +66,7 @@ func main() {
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("AUTH_PORT")
 	if port == "" {
 		port = "8080"
 	}

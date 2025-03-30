@@ -28,7 +28,7 @@ func main() {
 	log.Println("Server running at http://localhost:8081")
 	log.Println("Swagger docs available at http://localhost:8081/swagger/index.html")
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("BOOK_PORT")
 	if port == "" {
 		port = "8081"
 	}

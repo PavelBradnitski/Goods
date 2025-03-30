@@ -4,6 +4,8 @@ import (
 	"io"
 	"net/http"
 
+	"log"
+
 	"github.com/PavelBradnitski/Goods/book_service/config"
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +20,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		log.Println(config.AuthServiceURL)
 		req, err := http.NewRequest("GET", config.AuthServiceURL, nil)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Server error"})
@@ -26,10 +29,11 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		req.Header.Set("Authorization", token)
-
+		log.Println(req)
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {
+			log.Println(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Auth service error"})
 			c.Abort()
 			return
