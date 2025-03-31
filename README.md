@@ -11,14 +11,16 @@
 # Запуск проекта 
 1. Убедитесь, что установлен Docker и Docker Compose
 2. Клонируйте репозиторий
-
-* git clone https://github.com/PavelBradnitski/Goods.git
-* cd Goods
+```shell
+git clone https://github.com/PavelBradnitski/Goods.git
+cd Goods
+```
 3. Настройте .env файлы
 
 4. Запустите сервисы в Docker
-
-* docker-compose up --build -d`
+```shell
+docker-compose up --build -d
+```
 
 После успешного запуска сервисы будут доступны по:
 
@@ -31,24 +33,25 @@
 # Работа с MongoDB
 
 ## Подключение к базе через CLI
-
-* docker exec -it mongodb mongosh
-
+```shell
+docker exec -it mongodb mongosh
+```
 ## Просмотр существующих баз
-
-* show dbs
-
+```shell
+show dbs
+```
 ## Просмотр коллекций
-
-* show collections
+```shell
+show collections
+```
 ## Вывод всех пользователей
-
-* db.users.find().pretty()
-
+```shell
+db.users.find().pretty()
+```
 ## Вывод всех книг
-
-* db.books.find().pretty()
-
+```shell
+db.books.find().pretty()
+```
 # API Документация
 Swagger-документация доступна по адресу:
 - Auth Service → http://localhost:8080/swagger/index.html
